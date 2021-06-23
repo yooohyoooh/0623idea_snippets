@@ -1,0 +1,31 @@
+<h1>Show Post</h1>
+
+<ul>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @post.title %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @post.description %>
+  </li>
+
+  <li class="lang-elixir">
+    <strong>Code:</strong>
+    <%= parse_markdown(@post.code) |> raw %>
+  </li>
+  
+  <li>
+    <strong>Status:</strong>
+    <%= @post.published %>
+  </li>
+
+</ul>
+
+<%= render "comments.html", comments: @post.comments %>
+<%= render "comments-form.html", posts: @post, changeset: @changeset, action: Routes.post_post_path(@conn, :add_comment, @post) %>
+
+<span><%= link "Edit", to: Routes.post_path(@conn, :edit, @post) %></span>
+<span><%= link "Back", to: Routes.post_path(@conn, :index) %></span>

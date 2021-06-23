@@ -1,0 +1,47 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+<div>
+    <%= submit "Save" %>
+  </div>
+
+<div class="row">
+  <%= label f, :title %>
+  <%= text_input f, :title %>
+  <%= error_tag f, :title %>
+</div>
+
+<div class="row">
+  <%= label f, :description %>
+  <%= text_input f, :description%>
+  <%= error_tag f, :description %>
+</div>
+<div class="row">
+  <%= label f, :published %>
+  <%= select f, :published, [:draft, :public, :limited, :private], value: :draft %>
+  <%= error_tag f, :published %>
+</div>
+
+<div class="row markdown">
+  <div class="column editor">
+    <%= label f, :code %>
+    <%= textarea f, :code, class: "textarea"  %>
+    <%= error_tag f, :code %>
+  </div>
+  <div class="column">
+    <div class="preview markdown-body">
+  </div>
+</div>
+
+
+<%= if @current_user do %>
+  <%= hidden_input f, :user_id, value: @current_user.id %>
+<% end %>
+
+
+
+<% end %>

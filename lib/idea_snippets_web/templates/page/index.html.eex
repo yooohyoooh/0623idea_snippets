@@ -1,0 +1,44 @@
+<section class="phx-hero">
+ <%= if @current_user do %>
+    <h1><%= gettext "Welcome, %{name}!", name: @current_user.email %></h1>
+  <% else %>
+   <h1><%= gettext "Welcome to %{name}!", name: "Idea Snippets" %></h1>
+ <% end %>
+  <p>Idea SnippetsはちょっとしたElixirコードを書き留める SNS Webです。</p>
+</section>
+
+<section class="row">
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Code</th>
+      <th>Comments</th>
+      <th>Status</th>
+      <th>User_id</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for post <- @posts do %>
+    <tr>
+      <td><%= post.title %></td>
+      <td><%= post.description %></td>
+
+      <%= if post.published == :limited && !@current_user do %>
+        <td></td>
+      <% else %>
+        <td class="lang-elixir"><%= parse_markdown(post.code) |> raw %></td>
+      <% end %>
+
+      <td><%= get_number_of_comments(post.id) %></td>
+      <td><%= post.published %></td>
+      <td><%= post.user_id %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+  
+</section>
+<span><%= link "List", to: Routes.post_path(@conn, :index) %></span>
